@@ -1,0 +1,74 @@
+version: '3.8'
+services:
+  api:
+    image: kubedevio/pedelogo-catalogo:v1.0.0
+    ports: 
+      - "8080:80"
+    networks:
+      - pedelogo-network
+    dependos_on:
+      - dpedelogo-mongo
+    environment:
+      Mongo_Host: "pedelogo-mongodb"
+      Mongo_User: "mongo_user"
+      Mongo_Password: "mongo_password" 
+      Mongo_Port: "27017"
+      Mongo_databases: "admin"
+
+  pedelogo_mongodb:
+    image: mongo:4.1
+    networks:
+      - pedelogo-network
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: "mongo_user"
+      MONGO_INITDB_ROOT_PASSWORD: "mongo_password"
+
+#Configurando a coleta d logs do MongoDB usando exporter
+  mongoexporter:
+    image: fabricioverone/mongo_exporter 
+    ports:
+      - "9216:9216"
+    networks:
+      - pedelogo-network
+    depends_on:
+    environment:  
+      MONGO_URI: "mongodb://mongo_user:mongo_password@dpedelogo-mongo:27017/admin"
+    
+# segunda parte do docker-compose.yml
+  prometheus:
+    image: prom/prometheus:v2.24.1
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    depends_on:
+      - api
+      networks:
+        - pedelogo-network
+
+#docker-compose up -d
+
+# faz parte da primeira parte do docker-compose.yml
+  grafana:
+    image: grafana/grafana:7.1.5
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+    networks:
+      - pedelogo-network
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: "admin"
+
+  dpedelogo-mongo:
+    image: mongo:4.1
+    networks:
+      - pedelogo-network
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: "mongo_user"
+      MONGO_INITDB_ROOT_PASSWORD: "mongo_password"
+networks:
+  pedelogo-network:
+    driver: bridge
+    
+#docker-compose up -d

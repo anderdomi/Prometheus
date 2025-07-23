@@ -52,3 +52,11 @@ Usaremos push gateway para processo de curta duração.
 Usaremos alertas para notificação com regras, com Alert Manager.
 
 [Full](./img/estrutura.png)
+
+# Instalando Prometheus no docker.
+
+- Arquivo docker-compose.yml
+Configure o prometheus:
+- Arquivo prometheus.yml
+Colete as métricas do mongodb usando o exporter.
+- Arqvuivo docker-compose.yml e prometheus.yml
