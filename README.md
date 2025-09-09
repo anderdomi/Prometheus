@@ -60,3 +60,8 @@ Configure o prometheus:
 - Arquivo prometheus.yml
 Colete as métricas do mongodb usando o exporter.
 - Arqvuivo docker-compose.yml e prometheus.yml
+
+ # PromQL?
+  - Qual métrica você quer consultar
+
+ [Gerando Métricas](./img
