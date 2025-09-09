@@ -64,4 +64,7 @@ Colete as métricas do mongodb usando o exporter.
  # PromQL?
   - Qual métrica você quer consultar
 
- [Gerando Métricas](./img
+ [Gerando Métricas](./img/forcemetricas.png)
+ [Criando Consultas](./img/criandoconsultarsPromQL.png)
+ [Metricas Por minuto](./img/metricasporminuto.png)
+ 
